@@ -1,0 +1,17 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut nec.",
+      "author": "Leanne Graham"
+    },
+    {
+      "id": 2,
+      "body": "Morbi eget dignissim dui, at imperdiet turpis. Nunc blandit sem ut molestie facilisis.",
+      "author": "Ervin Howell"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
