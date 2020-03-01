@@ -10,7 +10,10 @@ describe("Comment Form", () => {
     const author = "Sensei Wu";
 
     // Act
-    const { getByLabelText, getByPlaceholderText, getByText } = render(<CommentForm />);
+    const addComment = jest.fn();
+    const { getByLabelText, getByPlaceholderText, getByText } = render(
+      <CommentForm addComment={addComment} />
+    );
 
     // Assert
     const submitButton = getByText("Add Comment");
