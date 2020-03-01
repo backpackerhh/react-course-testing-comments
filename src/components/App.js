@@ -15,9 +15,11 @@ const App = () => {
     })();
   }, []);
 
+  const addComment = newComment => setComments([...comments, newComment]);
+
   return (
     <div>
-      <CommentForm />
+      <CommentForm addComment={addComment} />
       <CommentList comments={comments} />
     </div>
   );
