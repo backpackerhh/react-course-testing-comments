@@ -1,26 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-import fakeServer from "../apis/fakeServer";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 
 const App = () => {
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    (async () => {
-      const response = await fakeServer.get("/comments");
-
-      setComments(response.data);
-    })();
-  }, []);
-
-  const addComment = newComment => setComments([...comments, newComment]);
-
   return (
     <div>
-      <CommentForm addComment={addComment} />
-      <CommentList comments={comments} />
+      <CommentForm />
+      <CommentList />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 
+import { renderWithRedux } from "../utils";
 import CommentForm from "../../components/CommentForm";
 
 describe("Comment Form", () => {
@@ -10,25 +11,18 @@ describe("Comment Form", () => {
     const author = "Sensei Wu";
 
     // Act
-    const addComment = jest.fn();
-    const { getByLabelText, getByPlaceholderText, getByText } = render(
-      <CommentForm addComment={addComment} />
-    );
+    const { getByLabelText, getByPlaceholderText, getByText } = renderWithRedux(<CommentForm />);
 
     // Assert
     const submitButton = getByText("Add Comment");
 
     expect(submitButton.disabled).toEqual(true);
 
-    const commentTextfieldNode = getByPlaceholderText("Write something...");
-
-    fireEvent.change(commentTextfieldNode, { target: { value: comment } });
+    fireEvent.change(getByPlaceholderText("Write something..."), { target: { value: comment } });
 
     expect(submitButton.disabled).toEqual(true);
 
-    const nameFieldNode = getByLabelText("Your Name");
-
-    fireEvent.change(nameFieldNode, { target: { value: author } });
+    fireEvent.change(getByLabelText("Your Name"), { target: { value: author } });
 
     expect(submitButton.disabled).toEqual(false);
   });

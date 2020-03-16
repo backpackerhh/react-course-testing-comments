@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 
+import { renderWithRedux } from "../utils";
 import CommentList from "../../components/CommentList";
 
 describe("Comment List", () => {
@@ -18,7 +19,11 @@ describe("Comment List", () => {
     };
 
     // Act
-    const { getByText } = render(<CommentList comments={[comment_1, comment_2]} />);
+    const { getByText } = renderWithRedux(<CommentList />, {
+      initialState: {
+        comments: [comment_1, comment_2]
+      }
+    });
 
     // Assert
     expect(getByText(comment_1.body)).toBeDefined();

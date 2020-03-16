@@ -1,39 +1,28 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+import { connect } from "react-redux";
 import { v4 as uuid } from "uuid";
 
-import fakeServer from "../apis/fakeServer";
+import { setCommentBody, setCommentAuthor, addComment, clearForm } from "../actions";
 
-const CommentForm = ({ addComment }) => {
-  const [body, setBody] = useState("");
-  const [author, setAuthor] = useState("");
-
+const CommentForm = props => {
   const hasInvalidFields = () => {
-    if (body.trim() === "" || author.trim() === "") {
+    if (props.body.trim() === "" || props.author.trim() === "") {
       return true;
     }
 
     return false;
   };
 
-  const onSubmit = async event => {
+  const onSubmit = event => {
     event.preventDefault();
 
-    const newComment = {
+    props.addComment({
       id: uuid(),
-      body,
-      author
-    };
+      body: props.body,
+      author: props.author
+    });
 
-    await fakeServer.post("/comments", newComment);
-
-    addComment(newComment);
-    clearForm();
-  };
-
-  const clearForm = () => {
-    setBody("");
-    setAuthor("");
+    props.clearForm();
   };
 
   return (
@@ -42,10 +31,10 @@ const CommentForm = ({ addComment }) => {
 
       <div>
         <textarea
-          onChange={e => setBody(e.target.value)}
+          onChange={e => props.setCommentBody(e.target.value)}
           placeholder="Write something..."
           name="body"
-          value={body}
+          value={props.body}
         />
       </div>
 
@@ -54,11 +43,11 @@ const CommentForm = ({ addComment }) => {
           Your Name
         </label>
         <input
-          onChange={e => setAuthor(e.target.value)}
+          onChange={e => props.setCommentAuthor(e.target.value)}
           id="author"
           type="text"
           name="author"
-          value={author}
+          value={props.author}
         />
       </div>
 
@@ -67,8 +56,18 @@ const CommentForm = ({ addComment }) => {
   );
 };
 
-CommentForm.propTypes = {
-  addComment: PropTypes.func.isRequired
+const mapStateToProps = state => {
+  return {
+    body: state.form.body,
+    author: state.form.author
+  };
 };
 
-export default CommentForm;
+const mapDispatchToProps = {
+  addComment,
+  setCommentBody,
+  setCommentAuthor,
+  clearForm
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
