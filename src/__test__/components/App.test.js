@@ -3,7 +3,7 @@ import { render, wait, fireEvent } from "@testing-library/react";
 
 import fakeServer from "../../apis/fakeServer";
 import App from "../../components/App";
-import { renderWithRedux } from "../utils";
+import { wrapWithRedux } from "../../utils";
 
 const comment_1 = {
   id: 1,
@@ -23,7 +23,7 @@ beforeEach(() => {
 
 describe("App", () => {
   it("fetches comments and renders them to the page", async () => {
-    const { getByText } = renderWithRedux(<App />);
+    const { getByText } = render(wrapWithRedux(<App />));
 
     await wait(() => getByText(comment_1.body));
 
@@ -33,7 +33,7 @@ describe("App", () => {
   });
 
   it("creates a new comment, renders it and clears out form upon submission", async () => {
-    const { getByLabelText, getByPlaceholderText, getByText } = renderWithRedux(<App />);
+    const { getByLabelText, getByPlaceholderText, getByText } = render(wrapWithRedux(<App />));
 
     await wait(() => getByText(comment_1.body));
 

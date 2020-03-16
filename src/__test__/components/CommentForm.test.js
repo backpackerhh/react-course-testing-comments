@@ -1,7 +1,7 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 
-import { renderWithRedux } from "../utils";
+import { wrapWithRedux } from "../../utils";
 import CommentForm from "../../components/CommentForm";
 
 describe("Comment Form", () => {
@@ -11,14 +11,18 @@ describe("Comment Form", () => {
     const author = "Sensei Wu";
 
     // Act
-    const { getByLabelText, getByPlaceholderText, getByText } = renderWithRedux(<CommentForm />);
+    const { getByLabelText, getByPlaceholderText, getByText } = render(
+      wrapWithRedux(<CommentForm />)
+    );
 
     // Assert
     const submitButton = getByText("Add Comment");
 
     expect(submitButton.disabled).toEqual(true);
 
-    fireEvent.change(getByPlaceholderText("Write something..."), { target: { value: comment } });
+    fireEvent.change(getByPlaceholderText("Write something..."), {
+      target: { value: comment }
+    });
 
     expect(submitButton.disabled).toEqual(true);
 
